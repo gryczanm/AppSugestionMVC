@@ -14,6 +14,7 @@ namespace AppSugestionMVC.Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
             services.AddTransient<IApplicationRepository, ApplicationRepository>();
+            services.AddTransient<IApplicationTypeRepository, ApplicationTypeRepository>();
 
             return services;
         }

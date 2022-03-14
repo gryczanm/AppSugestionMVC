@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace AppSugestionMVC.Application.ViewModels.Application
 {
-    public class ApplicationForListViewModel
+    public class ApplicationForListVm
     {
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+        public string TypeOfApplication { get; set; }
     }
 }

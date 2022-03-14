@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace AppSugestionMVC.Application.ViewModels.Application
 {
-    public class ApplicationListViewModel
+    public class ApplicationListVm
     {
-        public List<ApplicationForListViewModel> Applications { get; set; }
+        public List<ApplicationForListVm> Applications { get; set; }
         public int CurrentPage { get; set; }
         public int PageSize { get; set; }
         public int Count { get; set; }

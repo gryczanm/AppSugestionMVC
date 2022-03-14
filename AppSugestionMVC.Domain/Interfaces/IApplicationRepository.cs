@@ -9,6 +9,10 @@ namespace AppSugestionMVC.Domain.Interfaces
 {
     public interface IApplicationRepository
     {
+        int AddApplication(Application application);
+        Application GetApplicationById(int id);
+        //update
+        void DeleteApplicationById(int id);
         IQueryable<Application> GetAllApplications();
     }
 }

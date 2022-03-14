@@ -14,6 +14,7 @@ namespace AppSugestionMVC.Application
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             services.AddTransient<IApplicationService, ApplicationService>();
+            services.AddTransient<IApplicationTypeService, ApplicationTypeService>();
 
             return services;
         }

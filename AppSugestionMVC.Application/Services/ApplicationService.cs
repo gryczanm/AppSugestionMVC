@@ -1,32 +1,69 @@
 ﻿using AppSugestionMVC.Application.Interfaces;
 using AppSugestionMVC.Application.ViewModels.Application;
+using AppSugestionMVC.Application.ViewModels.ApplicationType;
 using AppSugestionMVC.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AppSugestionMVC.Application.Services
 {
     public class ApplicationService : IApplicationService
     {
         private readonly IApplicationRepository _applicationRepository;
+        private readonly IApplicationTypeRepository _applicationTypeRepository;
 
-        public ApplicationService(IApplicationRepository applicationRepository)
+        public ApplicationService(
+            IApplicationRepository applicationRepository,
+            IApplicationTypeRepository applicationTypeRepository
+            )
         {
             _applicationRepository = applicationRepository;
+            _applicationTypeRepository = applicationTypeRepository;
         }
 
-        public ApplicationListViewModel GetAllApplicationsForList   (int pageSize, int pageNumber, string searchString)
+        public int AddApplication(ApplicationAddVm model)
+        {
+            var application = new Domain.Model.Application
+            {
+                Id = model.Id,
+                Title = model.Title,
+                Description = model.Description,
+                ApplicationTypeId = model.ApplicationTypeId,
+            };
+
+            var applicationTypeId = _applicationRepository.AddApplication(application);
+
+            return applicationTypeId;
+        }
+        public void DeleteApplication(int id)
+        {
+            _applicationRepository.DeleteApplicationById(id);
+        }
+
+        public ApplicationDetailsVm GetApplicationDetails(int applicationId)
+        {
+            var application = _applicationRepository.GetApplicationById(applicationId);
+
+            var applicationDetailsVm = new ApplicationDetailsVm
+            {
+                Id = application.Id,
+                Title = application.Title,
+                Description = application.Description,
+                TypeOfApplication = application.ApplicationType.Name
+            };
+
+            return applicationDetailsVm;
+        }
+
+        public ApplicationListVm GetAllApplicationsForList (int pageSize, int pageNumber, string searchString)
         {
             var applications = _applicationRepository.GetAllApplications()
                 .Where(x => x.Title.StartsWith(searchString))
-                .Select(x => new ApplicationForListViewModel()
+                .Select(x => new ApplicationForListVm()
                 {
                     Id = x.Id,
                     Title = x.Title,
                     Description = x.Description,
+                    TypeOfApplication = x.ApplicationType.Name
                 })
                 .ToList();
 
@@ -34,7 +71,7 @@ namespace AppSugestionMVC.Application.Services
                 .Take(pageSize)
                 .ToList();
 
-            var applicationList = new ApplicationListViewModel()
+            var applicationList = new ApplicationListVm()
             {
                 Applications = applicationsToShow,
                 CurrentPage = pageNumber,
@@ -44,6 +81,25 @@ namespace AppSugestionMVC.Application.Services
             };
 
             return applicationList;
+        }
+
+        public IQueryable<ApplicationTypeVm> GetApplicationTypesToSelectList()
+        {
+            var applicationTypeVm = _applicationTypeRepository.GetAllApplicationTypes()
+                .Select(x => new ApplicationTypeVm
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                });
+
+            return applicationTypeVm;
+        }
+
+        public ApplicationAddVm SetParametersToVm(ApplicationAddVm model)
+        {
+            model.ApplicationTypes = GetApplicationTypesToSelectList().ToList();
+
+            return model;
         }
     }
 }

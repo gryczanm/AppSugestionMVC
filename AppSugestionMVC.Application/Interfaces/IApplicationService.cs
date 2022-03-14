@@ -1,4 +1,5 @@
 ﻿using AppSugestionMVC.Application.ViewModels.Application;
+using AppSugestionMVC.Application.ViewModels.ApplicationType;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,11 @@ namespace AppSugestionMVC.Application.Interfaces
 {
     public interface IApplicationService
     {
-        ApplicationListViewModel GetAllApplicationsForList(int pageSize, int pageNumber, string searchString);
+        int AddApplication(ApplicationAddVm model);
+        void DeleteApplication(int id);
+        ApplicationDetailsVm GetApplicationDetails(int applicationId);
+        ApplicationListVm GetAllApplicationsForList(int pageSize, int pageNumber, string searchString);
+        IQueryable<ApplicationTypeVm> GetApplicationTypesToSelectList();
+        ApplicationAddVm SetParametersToVm(ApplicationAddVm model);
     }
 }

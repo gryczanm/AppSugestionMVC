@@ -1,6 +1,8 @@
 ﻿using AppSugestionMVC.Application.Interfaces;
+using AppSugestionMVC.Application.ViewModels.Application;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace AppSugestionMVC.Web.Controllers
 {
@@ -22,6 +24,65 @@ namespace AppSugestionMVC.Web.Controllers
             var model = _applicationService.GetAllApplicationsForList(2, 1, "");
 
             return View(model);
+        }
+
+        [HttpPost]
+        [Route("Application/All")]
+        public IActionResult Index(int pageSize, int? pageNumber, string searchString)
+        {
+            if (!pageNumber.HasValue)
+            {
+                pageNumber = 1;
+            }
+
+            if (searchString is null)
+            {
+                searchString = String.Empty;
+            }
+
+            var model = _applicationService.GetAllApplicationsForList(pageSize, pageNumber.Value, searchString);
+
+            return View(model);
+        }
+
+        [HttpGet]
+        [Route("Application/Add")]
+        public IActionResult AddApplication()
+        {
+            var model = new ApplicationAddVm();
+            _applicationService.SetParametersToVm(model);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("Application/Add")]
+        public IActionResult AddApplication(ApplicationAddVm applicationAddVm)
+        {
+            if (!ModelState.IsValid)
+                return RedirectToAction("Index");
+
+            var addedApplicationId = _applicationService.AddApplication(applicationAddVm);
+
+            return RedirectToAction("DetailsApplication", new { id = addedApplicationId });
+        }
+
+        [HttpGet]
+        [Route("Application/Details/{id}")]
+        public IActionResult DetailsApplication(int id)
+        {
+            var model = _applicationService.GetApplicationDetails(id);
+
+            return View(model);
+        }
+
+        public IActionResult DeleteApplication(int id)
+        {
+            _applicationService.DeleteApplication(id);
+            _logger.LogInformation($"Application with id: {id} has been deleted.");
+
+            return RedirectToAction("Index");
         }
     }
 }
