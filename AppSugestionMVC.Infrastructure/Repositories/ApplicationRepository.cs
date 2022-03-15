@@ -34,6 +34,16 @@ namespace AppSugestionMVC.Infrastructure.Repositories
 
             return application;
         }
+
+        public void UpdateApplication(Application application)
+        {
+            _context.Attach(application);
+            _context.Entry(application).Property("Title").IsModified = true;
+            _context.Entry(application).Property("Description").IsModified = true;
+            _context.Entry(application).Property("ApplicationTypeId").IsModified = true;
+            _context.SaveChanges();
+        }
+
         public void DeleteApplicationById(int id)
         {
             var application = _context.Applications.FirstOrDefault(x => x.Id == id);

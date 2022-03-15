@@ -61,11 +61,13 @@ namespace AppSugestionMVC.Web.Controllers
         public IActionResult AddApplication(ApplicationAddVm applicationAddVm)
         {
             if (!ModelState.IsValid)
+            {
                 return RedirectToAction("Index");
+            }
 
-            var addedApplicationId = _applicationService.AddApplication(applicationAddVm);
+            var applicationId = _applicationService.AddApplication(applicationAddVm);
 
-            return RedirectToAction("DetailsApplication", new { id = addedApplicationId });
+            return RedirectToAction("DetailsApplication", new { id = applicationId });
         }
 
         [HttpGet]
@@ -75,6 +77,30 @@ namespace AppSugestionMVC.Web.Controllers
             var model = _applicationService.GetApplicationDetails(id);
 
             return View(model);
+        }
+
+        [HttpGet]
+        [Route("Application/Edit/{id}")]
+        public IActionResult EditApplication(int id)
+        {
+            var model = _applicationService.GetApplicationForEdit(id);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("Application/Edit/{id}")]
+        public IActionResult EditApplication(ApplicationAddVm model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Index");
+            }
+
+            _applicationService.UpdateApplication(model);
+
+            return RedirectToAction("DetailsApplication", new { model.Id });
         }
 
         public IActionResult DeleteApplication(int id)

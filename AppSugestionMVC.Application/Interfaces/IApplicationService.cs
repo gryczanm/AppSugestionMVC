@@ -11,6 +11,8 @@ namespace AppSugestionMVC.Application.Interfaces
     public interface IApplicationService
     {
         int AddApplication(ApplicationAddVm model);
+        void UpdateApplication(ApplicationAddVm model);
+        ApplicationAddVm GetApplicationForEdit(int id);
         void DeleteApplication(int id);
         ApplicationDetailsVm GetApplicationDetails(int applicationId);
         ApplicationListVm GetAllApplicationsForList(int pageSize, int pageNumber, string searchString);

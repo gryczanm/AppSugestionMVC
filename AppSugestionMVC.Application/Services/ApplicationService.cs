@@ -22,7 +22,7 @@ namespace AppSugestionMVC.Application.Services
 
         public int AddApplication(ApplicationAddVm model)
         {
-            var application = new Domain.Model.Application
+            var application = new Domain.Model.Application()
             {
                 Id = model.Id,
                 Title = model.Title,
@@ -34,6 +34,20 @@ namespace AppSugestionMVC.Application.Services
 
             return applicationTypeId;
         }
+
+        public void UpdateApplication(ApplicationAddVm model)
+        {
+            var application = new Domain.Model.Application()
+            {
+                Id = model.Id,
+                Title = model.Title,
+                Description = model.Description,
+                ApplicationTypeId = model.ApplicationTypeId,
+            };
+
+            _applicationRepository.UpdateApplication(application);
+        }
+
         public void DeleteApplication(int id)
         {
             _applicationRepository.DeleteApplicationById(id);
@@ -43,7 +57,7 @@ namespace AppSugestionMVC.Application.Services
         {
             var application = _applicationRepository.GetApplicationById(applicationId);
 
-            var applicationDetailsVm = new ApplicationDetailsVm
+            var applicationDetailsVm = new ApplicationDetailsVm()
             {
                 Id = application.Id,
                 Title = application.Title,
@@ -86,13 +100,26 @@ namespace AppSugestionMVC.Application.Services
         public IQueryable<ApplicationTypeVm> GetApplicationTypesToSelectList()
         {
             var applicationTypeVm = _applicationTypeRepository.GetAllApplicationTypes()
-                .Select(x => new ApplicationTypeVm
+                .Select(x => new ApplicationTypeVm()
                 {
                     Id = x.Id,
                     Name = x.Name,
                 });
 
             return applicationTypeVm;
+        }
+        public ApplicationAddVm GetApplicationForEdit(int id)
+        {
+            var application = _applicationRepository.GetApplicationById(id);
+            var applicationVm = new ApplicationAddVm()
+            {
+                Title = application.Title,
+                Description = application.Description,
+                ApplicationTypeId = application.ApplicationTypeId
+            };
+            var model = SetParametersToVm(applicationVm);
+
+            return model;
         }
 
         public ApplicationAddVm SetParametersToVm(ApplicationAddVm model)

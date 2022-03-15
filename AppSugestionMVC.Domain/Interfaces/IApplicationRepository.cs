@@ -11,7 +11,7 @@ namespace AppSugestionMVC.Domain.Interfaces
     {
         int AddApplication(Application application);
         Application GetApplicationById(int id);
-        //update
+        void UpdateApplication(Application application);
         void DeleteApplicationById(int id);
         IQueryable<Application> GetAllApplications();
     }

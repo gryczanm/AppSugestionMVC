@@ -1,17 +1,21 @@
 ﻿@model AppSugestionMVC.Application.ViewModels.Application.ApplicationListVm
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Types";
 }
 
-<h1>List of Applications</h1>
+<h1>List of Types</h1>
+<div id="PlaceHolderHere"></div>
 
 <p>
-    <a class="btn btn-primary" asp-controller="Application" asp-action="AddApplication">Create</a>
+    <button class="btn btn-primary" data-toggle="ajax-modal" data-target="#addApplicationType" data-url="@Url.Action("CreateApplicationType")">
+        Create
+    </button>
+    @*<a class="btn btn-primary" asp-controller="Application" asp-action="AddApplication">Add</a>*@
     <a class="btn btn-secondary" asp-controller="Application" asp-action="Index">Applications</a>
     <a class="btn btn-secondary" asp-controller="ApplicationType" asp-action="Index">Types</a>
 </p>
-<form class="form" asp-action="index" asp-controller="Application" method="post">
+@*<form class="form" asp-action="index" asp-controller="Application" method="post">
     <div class="form-row">
         <div class="form-group col-md-6">
             <input class="form-control" type="search" placeholder="Search by title" aria-label="Search" asp-for="SearchString" name="searchString" id="searchString" />
@@ -113,4 +117,4 @@
         document.forms[0].submit();
     }
 </script>
-}
+}*@
