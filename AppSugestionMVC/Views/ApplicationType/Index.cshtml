@@ -1,24 +1,23 @@
-﻿@model AppSugestionMVC.Application.ViewModels.Application.ApplicationListVm
+﻿@model AppSugestionMVC.Application.ViewModels.ApplicationType.ApplicationTypeListVm
 
 @{
     ViewData["Title"] = "Types";
 }
 
-<h1>List of Types</h1>
+<h1>Types</h1>
 <div id="PlaceHolderHere"></div>
 
 <p>
-    <button class="btn btn-primary" data-toggle="ajax-modal" data-target="#addApplicationType" data-url="@Url.Action("CreateApplicationType")">
+    <button class="btn btn-success" data-toggle="ajax-modal" data-target="#addApplicationType" data-url="@Url.Action("CreateApplicationType")">
         Create
     </button>
-    @*<a class="btn btn-primary" asp-controller="Application" asp-action="AddApplication">Add</a>*@
     <a class="btn btn-secondary" asp-controller="Application" asp-action="Index">Applications</a>
-    <a class="btn btn-secondary" asp-controller="ApplicationType" asp-action="Index">Types</a>
+    <a class="btn btn-primary" asp-controller="ApplicationType" asp-action="Index">Types</a>
 </p>
-@*<form class="form" asp-action="index" asp-controller="Application" method="post">
+<form class="form" asp-action="index" asp-controller="ApplicationType" method="post">
     <div class="form-row">
         <div class="form-group col-md-6">
-            <input class="form-control" type="search" placeholder="Search by title" aria-label="Search" asp-for="SearchString" name="searchString" id="searchString" />
+            <input class="form-control" type="search" placeholder="Search by type" aria-label="Search" asp-for="SearchString" name="searchString" id="searchString" />
         </div>
         <div class="form-group col-md-6">
             <button class="btn btn-outline-success" type="submit">Search</button>
@@ -29,32 +28,26 @@
             <thead>
                 <tr>
                     <th scope="col">Id</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Description</th>
                     <th scope="col">Type</th>
                     <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model.Applications)
+                @foreach (var item in Model.ApplicationTypes)
                 {
                     <tr>
                         <td>
                             @Html.DisplayFor(modelItem => item.Id)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Title)
-                        </td>
-                        <td style="overflow: hidden; max-width: 20ch; text-overflow: ellipsis; white-space: nowrap;">
-                            @Html.DisplayFor(modelItem => item.Description)
+                            @Html.DisplayFor(modelItem => item.Name)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.TypeOfApplication)
-                        </td>
-                        <td>
-                            <a asp-controller="Application" asp-action="EditApplication" asp-route-id="@item.Id" class="btn btn-secondary">Edit</a>
-                            <a asp-controller="Application" asp-action="DetailsApplication" asp-route-id="@item.Id" class="btn btn-primary">Details</a>
-                            <a asp-controller="Application" asp-action="DeleteApplication" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                            <button class="btn btn-secondary" data-toggle="ajax-modal" data-target="#editApplicationType" data-url="@Url.Action("EditApplicationType")">
+                                Edit
+                            </button>
+                            @*<a asp-controller="ApplicationType" asp-action="EditApplicationType" asp-route-id="@item.Id" class="btn btn-secondary">Edit</button>*@
+                            <a asp-controller="ApplicationType" asp-action="DeleteApplicationType" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
                         </td>
                     </tr>
                 }
@@ -117,4 +110,4 @@
         document.forms[0].submit();
     }
 </script>
-}*@
+}

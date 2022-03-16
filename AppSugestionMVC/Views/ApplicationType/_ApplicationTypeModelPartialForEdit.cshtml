@@ -1,16 +1,16 @@
 ﻿@model AppSugestionMVC.Application.ViewModels.ApplicationType.ApplicationTypeVm
 
-<div class="modal fade" id="addApplicationType">
+<div class="modal fade" id="editApplicationType">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" id="addApplicationType">Add Type</h4>
+                <h4 class="modal-title" id="editApplicationType">Edit Type</h4>
                 <button type="button" class="close" data-dismiss="modal">
                     <span>x</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form asp-action="CreateApplicationType" asp-controller="ApplicationType" method="post">                   
+                <form asp-action="EditApplicationType" asp-controller="ApplicationType" method="post">                   
                     <input type="hidden" asp-for="Id" class="form-control" />
                     <div class="form-group">
                         <label asp-for="Name"></label>

@@ -9,6 +9,8 @@ namespace AppSugestionMVC.Domain.Interfaces
 {
     public interface IApplicationTypeRepository
     {
+        int AddApplicationType(ApplicationType applicationType);
+        void DeleteApplicationTypeById(int id);
         IQueryable<ApplicationType> GetAllApplicationTypes();
     }
 }
