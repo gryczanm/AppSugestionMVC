@@ -21,7 +21,7 @@ namespace AppSugestionMVC.Web.Controllers
         [Route("Application/All")]
         public IActionResult Index()
         {
-            var model = _applicationService.GetAllApplicationsForList(2, 1, "");
+            var model = _applicationService.GetAllApplicationsForList(10, 1, "");
 
             return View(model);
         }
@@ -46,28 +46,22 @@ namespace AppSugestionMVC.Web.Controllers
         }
 
         [HttpGet]
-        [Route("Application/Add")]
         public IActionResult AddApplication()
         {
             var model = new ApplicationAddVm();
             _applicationService.SetParametersToVm(model);
 
-            return View(model);
+            return PartialView("_AddApplicationModalPartial", model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("Application/Add")]
         public IActionResult AddApplication(ApplicationAddVm applicationAddVm)
         {
-            if (!ModelState.IsValid)
-            {
-                return RedirectToAction("Index");
-            }
+            _applicationService.AddApplication(applicationAddVm);
+            var model = _applicationService.GetAllApplicationsForList(10, 1, "");
 
-            var applicationId = _applicationService.AddApplication(applicationAddVm);
-
-            return RedirectToAction("DetailsApplication", new { id = applicationId });
+            return PartialView("_ListOfApplicationsPartial", model);
         }
 
         [HttpGet]
@@ -79,36 +73,45 @@ namespace AppSugestionMVC.Web.Controllers
             return View(model);
         }
 
+        //[HttpGet]
+        //[Route("Application/Edit/{id}")]
+        //public IActionResult EditApplication(int id)
+        //{
+        //    var model = _applicationService.GetApplicationForEdit(id);
+
+        //    return View(model);
+        //}
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //[Route("Application/Edit/{id}")]
+        //public IActionResult EditApplication(ApplicationAddVm model)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return RedirectToAction("Index");
+        //    }
+
+        //    _applicationService.UpdateApplication(model);
+
+        //    return RedirectToAction("DetailsApplication", new { model.Id });
+        //}
+
+        //public IActionResult DeleteApplication(int id)
+        //{
+        //    _applicationService.DeleteApplication(id);
+        //    _logger.LogInformation($"Application with id: {id} has been deleted.");
+
+        //    return RedirectToAction("Index");
+        //}
+
         [HttpGet]
-        [Route("Application/Edit/{id}")]
         public IActionResult EditApplication(int id)
         {
             var model = _applicationService.GetApplicationForEdit(id);
+            _applicationService.SetParametersToVm(model);
 
-            return View(model);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Route("Application/Edit/{id}")]
-        public IActionResult EditApplication(ApplicationAddVm model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return RedirectToAction("Index");
-            }
-
-            _applicationService.UpdateApplication(model);
-
-            return RedirectToAction("DetailsApplication", new { model.Id });
-        }
-
-        public IActionResult DeleteApplication(int id)
-        {
-            _applicationService.DeleteApplication(id);
-            _logger.LogInformation($"Application with id: {id} has been deleted.");
-
-            return RedirectToAction("Index");
+            return PartialView("_EditApplicationPartial", model);
         }
     }
 }

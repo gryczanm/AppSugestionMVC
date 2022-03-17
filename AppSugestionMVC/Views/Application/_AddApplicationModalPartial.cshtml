@@ -1,0 +1,39 @@
+﻿@model AppSugestionMVC.Application.ViewModels.Application.ApplicationAddVm
+
+<div class="modal fade" id="addApplication">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="addApplicationLabel">Add Application</h4>
+                <button class="close" data-dismiss="modal">
+                    <span>X</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form action="AddApplication">
+                    <div class="form-group">
+                        <label asp-for="Title" class="control-label"></label>
+                        <input asp-for="Title" class="form-control" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label"></label>
+                        <input asp-for="Description" class="form-control" />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ApplicationTypeId" class="control-label">Type</label>
+                        <select asp-for="ApplicationTypeId" class="form-control" asp-items="@(new SelectList(Model.ApplicationTypes, "Id", "Name"))"></select>
+                        <span asp-validation-for="ApplicationTypeId" class="text-danger"></span>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button class="btn btn-primary" data-save="modal">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -4,113 +4,25 @@
     ViewData["Title"] = "Index";
 }
 
+<div id="PlaceHolderHere"></div>
+
 <h1>Applications</h1>
 
 <p>
-    <a class="btn btn-success" asp-controller="Application" asp-action="AddApplication">Create</a>
+    <button class="btn btn-success" data-toggle="ajax-modal" data-target="#addApplication" data-url="@Url.Action("AddApplication")">Create</button>
     <a class="btn btn-primary" asp-controller="Application" asp-action="Index">Applications</a>
     <a class="btn btn-secondary" asp-controller="ApplicationType" asp-action="Index">Types</a>
 </p>
-<form class="form" asp-action="index" asp-controller="Application" method="post">
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <input class="form-control" type="search" placeholder="Search by title" aria-label="Search" asp-for="SearchString" name="searchString" id="searchString" />
-        </div>
-        <div class="form-group col-md-6">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-        </div>
-    </div>
-    <div class="form-row">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Type</th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.Applications)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Id)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Title)
-                        </td>
-                        <td style="overflow: hidden; max-width: 20ch; text-overflow: ellipsis; white-space: nowrap;">
-                            @Html.DisplayFor(modelItem => item.Description)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.TypeOfApplication)
-                        </td>
-                        <td>
-                            <a asp-controller="Application" asp-action="EditApplication" asp-route-id="@item.Id" class="btn btn-secondary">Edit</a>
-                            <a asp-controller="Application" asp-action="DetailsApplication" asp-route-id="@item.Id" class="btn btn-secondary">Details</a>
-                            <a asp-controller="Application" asp-action="DeleteApplication" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-    <div class="row">
-        <input type="hidden" name="pageNumber" id="pageNumber" />
-        <input type="hidden" name="pageSize" id="pageSize" value="2" />
-        <nav aria-label="...">
-            <ul class="pagination">
-                @if (Model.CurrentPage <= 1)
-                {
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1">Previous</a>
-                    </li>
-                }
-                else
-                {
-                    <li class="page-item">
-                        <a class="page-link" href="javascript:PagerClick(@Model.CurrentPage - 1)" tabindex="-1">Previous</a>
-                    </li>
-                }
 
-                @for (int i = 1; i <= Math.Ceiling(Model.Count / (double)Model.PageSize); i++)
-                {
-                    @if (i != Model.CurrentPage)
-                    {
-                        <li class="page-item"><a class="page-link" href="javascript:PagerClick(@i)">@i</a></li>
-                    }
-                    else
-                    {
-                        <li class="page-item active"><span class="page-link">@i</span></li>
-                    }
-                }
-
-                @if (Model.CurrentPage == Math.Ceiling(Model.Count / (double)Model.PageSize))
-                {
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1">Next</a>
-                    </li>
-                }
-                else
-                {
-                    <li class="page-item">
-                        <a class="page-link" href="javascript:PagerClick(@Model.CurrentPage + 1)" tabindex="-1">Next</a>
-                    </li>
-                }
-            </ul>
-        </nav>
-    </div>
-</form>
+<partial name="_ListOfApplicationsPartial" />
 
 @section Scripts
 {
-<script type="text/javascript">
-    function PagerClick(index)
-    {
-        document.getElementById("pageNumber").value = index;
-        document.forms[0].submit();
-    }
-</script>
+    <script type="text/javascript">
+        function PagerClick(index)
+        {
+            document.getElementById("pageNumber").value = index;
+            document.forms[0].submit();
+        }
+    </script>
 }

@@ -117,6 +117,7 @@ namespace AppSugestionMVC.Application.Services
                 Description = application.Description,
                 ApplicationTypeId = application.ApplicationTypeId
             };
+
             var model = SetParametersToVm(applicationVm);
 
             return model;
