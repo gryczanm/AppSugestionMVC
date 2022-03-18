@@ -18,16 +18,14 @@ namespace AppSugestionMVC.Web.Controllers
         }
 
         [HttpGet]
-        [Route("Application/All")]
         public IActionResult Index()
         {
-            var model = _applicationService.GetAllApplicationsForList(10, 1, "");
+            var model = _applicationService.GetAllApplicationsForList(2, 1, "");
 
             return View(model);
         }
 
         [HttpPost]
-        [Route("Application/All")]
         public IActionResult Index(int pageSize, int? pageNumber, string searchString)
         {
             if (!pageNumber.HasValue)
@@ -45,33 +43,34 @@ namespace AppSugestionMVC.Web.Controllers
             return View(model);
         }
 
-        [HttpGet]
-        public IActionResult AddApplication()
-        {
-            var model = new ApplicationAddVm();
-            _applicationService.SetParametersToVm(model);
+        //[HttpGet]
+        //public IActionResult Create()
+        //{
+        //    var model = new ApplicationAddVm();
 
-            return PartialView("_AddApplicationModalPartial", model);
-        }
+        //    _applicationService.SetParametersToVm(model);
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult AddApplication(ApplicationAddVm applicationAddVm)
-        {
-            _applicationService.AddApplication(applicationAddVm);
-            var model = _applicationService.GetAllApplicationsForList(10, 1, "");
+        //    return PartialView("_CreateApplicationModalPartial", model);
+        //}
 
-            return PartialView("_ListOfApplicationsPartial", model);
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult Create(ApplicationAddVm applicationAddVm)
+        //{
+        //    _applicationService.AddApplication(applicationAddVm);
 
-        [HttpGet]
-        [Route("Application/Details/{id}")]
-        public IActionResult DetailsApplication(int id)
-        {
-            var model = _applicationService.GetApplicationDetails(id);
+        //    //return PartialView("_CreateApplicationModalPartial", applicationAddVm);
+        //    return RedirectToAction("Index");
+        //}
 
-            return View(model);
-        }
+        //[HttpGet]
+        //[Route("Application/Details/{id}")]
+        //public IActionResult DetailsApplication(int id)
+        //{
+        //    var model = _applicationService.GetApplicationDetails(id);
+
+        //    return View(model);
+        //}
 
         //[HttpGet]
         //[Route("Application/Edit/{id}")]
@@ -97,21 +96,33 @@ namespace AppSugestionMVC.Web.Controllers
         //    return RedirectToAction("DetailsApplication", new { model.Id });
         //}
 
-        //public IActionResult DeleteApplication(int id)
-        //{
-        //    _applicationService.DeleteApplication(id);
-        //    _logger.LogInformation($"Application with id: {id} has been deleted.");
+        // to zrobić :)
+        public IActionResult Delete(int id)
+        {
+            var model = _applicationService.GetApplicationForDelete(id);
+            //_applicationService.DeleteApplication(id);
+            _logger.LogInformation($"Application with id: {id} has been deleted.");
+            //return RedirectToAction("Index");
+            return PartialView("_DeleteApplicationPartial", model);
+        }
 
-        //    return RedirectToAction("Index");
+        //[HttpGet]
+        //public IActionResult Edit(int id)
+        //{
+        //    var model = _applicationService.GetApplicationForEdit(id);
+
+        //    var test = _applicationService.SetParametersToVm(model);
+
+        //    return PartialView("_EditApplicationPartial", model);
         //}
 
-        [HttpGet]
-        public IActionResult EditApplication(int id)
-        {
-            var model = _applicationService.GetApplicationForEdit(id);
-            _applicationService.SetParametersToVm(model);
+        //[HttpPost]
+        //public IActionResult EditApplication(int id)
+        //{
+        //    var model = _applicationService.GetApplicationForEdit(id);
+        //    _applicationService.SetParametersToVm(model);
 
-            return PartialView("_EditApplicationPartial", model);
-        }
+        //    return PartialView("_EditApplicationPartial", model);
+        //}
     }
 }

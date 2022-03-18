@@ -9,20 +9,9 @@
 <h1>Applications</h1>
 
 <p>
-    <button class="btn btn-success" data-toggle="ajax-modal" data-target="#addApplication" data-url="@Url.Action("AddApplication")">Create</button>
+    <button class="btn btn-success" data-toggle="ajax-modal" data-target="#createApplication" data-url="@Url.Action("Create")">Create</button>
     <a class="btn btn-primary" asp-controller="Application" asp-action="Index">Applications</a>
     <a class="btn btn-secondary" asp-controller="ApplicationType" asp-action="Index">Types</a>
 </p>
 
 <partial name="_ListOfApplicationsPartial" />
-
-@section Scripts
-{
-    <script type="text/javascript">
-        function PagerClick(index)
-        {
-            document.getElementById("pageNumber").value = index;
-            document.forms[0].submit();
-        }
-    </script>
-}

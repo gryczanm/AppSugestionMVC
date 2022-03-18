@@ -8,8 +8,12 @@ $(function () {
 
     $('button[data-toggle="ajax-modal"]').click(function (event) {
         var url = $(this).data('url');
+        var decodedUrl = decodeURIComponent(url);
 
-        $.get(url).done(function (data) {
+        console.log(url);
+        console.log(decodedUrl);
+
+        $.get(decodedUrl).done(function (data) {
             PlaceHolderElement.html(data);
             PlaceHolderElement.find('.modal').modal('show');
         })
@@ -22,7 +26,7 @@ $(function () {
 
         $.post(actionUrl, sendData).done(function (data) {
             PlaceHolderElement.find('.modal').modal('hide');
-            location.reload();
+            //location.reload();
         })
     })
 })

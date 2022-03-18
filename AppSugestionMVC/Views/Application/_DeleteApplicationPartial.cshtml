@@ -1,0 +1,37 @@
+﻿@model AppSugestionMVC.Application.ViewModels.Application.ApplicationDeleteVm
+
+<div class="modal fade" id="deleteApplication">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="deleteApplicationLabel">Are you sure you want to delete?</h4>
+                <button class="close" data-dismiss="modal">
+                    <span>X</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form asp-action="Delete" asp-controller="Application" method="post">
+                    <div class="form-group">
+                        <input type="hidden" asp-for="@Model.Id" />
+                        <label asp-for="Id">@Model.Id</label>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Title">@Model.Title</label>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description">@Model.Description</label>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ApplicationTypeName">@Model.ApplicationTypeName</label>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary" data-save="modal">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>

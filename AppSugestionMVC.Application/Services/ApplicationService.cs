@@ -113,6 +113,7 @@ namespace AppSugestionMVC.Application.Services
             var application = _applicationRepository.GetApplicationById(id);
             var applicationVm = new ApplicationAddVm()
             {
+                Id = application.Id,
                 Title = application.Title,
                 Description = application.Description,
                 ApplicationTypeId = application.ApplicationTypeId
@@ -123,6 +124,20 @@ namespace AppSugestionMVC.Application.Services
             return model;
         }
 
+        public ApplicationDeleteVm GetApplicationForDelete(int id)
+        {
+            var application = _applicationRepository.GetApplicationById(id);
+            var applicationVm = new ApplicationDeleteVm()
+            {
+                Id = application.Id,
+                Title = application.Title,
+                Description = application.Description,
+                ApplicationTypeName = application.ApplicationType.Name,
+                ApplicationTypeId = application.ApplicationTypeId
+            };
+
+            return applicationVm;
+        }
         public ApplicationAddVm SetParametersToVm(ApplicationAddVm model)
         {
             model.ApplicationTypes = GetApplicationTypesToSelectList().ToList();

@@ -37,9 +37,10 @@
                             @Html.DisplayFor(modelItem => item.TypeOfApplication)
                         </td>
                         <td>
-                            <button class="btn btn-secondary" data-toggle="ajax-modal" data-target="#editApplication" data-url="@Url.Action("EditApplication")" asp-route-id="@item.Id">Edit</button>
+                            <button class="btn btn-secondary" data-toggle="ajax-modal" data-target="#editApplication" data-url="@Url.Action($"Edit/{item.Id}")">Edit</button>
                             <a class="btn btn-secondary" asp-controller="Application" asp-action="DetailsApplication" asp-route-id="@item.Id">Details</a>
-                            <a class="btn btn-danger" asp-controller="Application" asp-action="DeleteApplication" asp-route-id="@item.Id">Delete</a>
+                            <button class="btn btn-danger" data-toggle="ajax-modal" data-target="#deleteApplication" data-url="@Url.Action($"Delete/{item.Id}")">Delete</button>
+                            @*<a class="btn btn-danger" asp-controller="Application" asp-action="DeleteApplication" asp-route-id="@item.Id">Delete</a*@>
                         </td>
                     </tr>
                 }
@@ -92,3 +93,14 @@
         </nav>
     </div>
 </form>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        function PagerClick(index)
+        {
+            document.getElementById("pageNumber").value = index;
+            document.forms[0].submit();
+        }
+    </script>
+}

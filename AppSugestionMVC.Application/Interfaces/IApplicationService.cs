@@ -18,5 +18,6 @@ namespace AppSugestionMVC.Application.Interfaces
         ApplicationListVm GetAllApplicationsForList(int pageSize, int pageNumber, string searchString);
         IQueryable<ApplicationTypeVm> GetApplicationTypesToSelectList();
         ApplicationAddVm SetParametersToVm(ApplicationAddVm model);
+        ApplicationDeleteVm GetApplicationForDelete(int id);
     }
 }
